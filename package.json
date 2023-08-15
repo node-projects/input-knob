@@ -2,13 +2,8 @@
   "name": "input-knob",
   "version": "0.0.11",
   "description": "A rotating, touch-sensitive knob web component that acts like an <input type=\"range\">.",
-  "main": "dist/input-knob.cjs.js",
-  "module": "dist/input-knob.esm.js",
-  "browser": "dist/input-knob.umd.js",
-  "scripts": {
-    "build": "rollup -c",
-    "build:watch": "rollup -c -w"
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GoogleChromeLabs/input-knob.git"
@@ -23,9 +18,5 @@
   "bugs": {
     "url": "https://github.com/GoogleChromeLabs/input-knob/issues"
   },
-  "homepage": "https://github.com/GoogleChromeLabs/input-knob#readme",
-  "devDependencies": {
-    "rollup": "^2.36.1",
-    "rollup-plugin-terser": "^7.0.2"
-  }
+  "homepage": "https://github.com/GoogleChromeLabs/input-knob#readme"
 }
