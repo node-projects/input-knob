@@ -90,11 +90,17 @@ export default class InputKnob extends HTMLElement {
   }
 
   set value(value) {
-    this.setAttribute('value', <any>parseFloat(<any>value));
+    let oldValue = parseFloat(this.getAttribute('value'));
+    let newValue = parseFloat(<any>value);
+    this.setAttribute('value', <any>newValue);
+    if (oldValue != newValue) {
+      const event = new CustomEvent("value-changed", { detail: { oldValue, newValue } });
+      this.dispatchEvent(event);
+    }
   }
 
   get scale(): number {
-    return this.hasAttribute('scale') ? parseFloat(this.getAttribute('scale')) : 1;
+    return this.hasAttribute('scale') ? parseFloat(this.getAttribute('scale')) : 10;
   }
 
   set scale(scale) {
@@ -102,7 +108,7 @@ export default class InputKnob extends HTMLElement {
   }
 
   get min(): number {
-    return this.hasAttribute('min') ? parseFloat(this.getAttribute('min')) : null;
+    return this.hasAttribute('min') ? parseFloat(this.getAttribute('min')) : 0;
   }
 
   set min(min) {
@@ -110,7 +116,7 @@ export default class InputKnob extends HTMLElement {
   }
 
   get max(): number {
-    return this.hasAttribute('max') ? parseFloat(this.getAttribute('max')) : null;
+    return this.hasAttribute('max') ? parseFloat(this.getAttribute('max')) : 100;
   }
 
   set max(max) {
