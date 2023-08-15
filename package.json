@@ -6,7 +6,7 @@
   "module": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GoogleChromeLabs/input-knob.git"
+    "url": "git+https://github.com/node-projects/input-knob.git"
   },
   "customElements": "custom-elements.json",
   "keywords": [
@@ -23,9 +23,9 @@
   "author": "Rowan Merewood <rowan@merewood.org>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/GoogleChromeLabs/input-knob/issues"
+    "url": "https://github.com/node-projects/input-knob/issues"
   },
-  "homepage": "https://github.com/GoogleChromeLabs/input-knob#readme",
+  "homepage": "https://github.com/node-projects/input-knob#readme",
   "devDependencies": {
     "typescript": "^5.1.6",
     "@web/dev-server": "^0.3.0",
