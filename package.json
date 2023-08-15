@@ -1,6 +1,6 @@
 {
   "name": "@node-projects/input-knob",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A rotating, touch-sensitive knob web component that acts like an <input type=\"range\">.",
   "main": "dist/index.js",
   "module": "dist/index.js",
