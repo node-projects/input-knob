@@ -1,0 +1,76 @@
+{
+    "schemaVersion": "1.0.0",
+    "readme": "README.md",
+    "modules": [
+        {
+            "kind": "javascript-module",
+            "path": "dist/input-knob.js",
+            "declarations": [
+                {
+                    "kind": "class",
+                    "name": "InputKnob",
+                    "members": [
+                        {
+                            "kind": "field",
+                            "name": "value",
+                            "type":  {
+                                "text": "number"
+                            }
+                        },
+                        {
+                            "kind": "field",
+                            "name": "scale",
+                            "type":  {
+                                "text": "number"
+                            }
+                        },
+                        {
+                            "kind": "field",
+                            "name": "min",
+                            "type":  {
+                                "text": "number"
+                            }
+                        },
+                        {
+                            "kind": "field",
+                            "name": "max",
+                            "type":  {
+                                "text": "number"
+                            }
+                        }
+                    ],
+                    "attributes": [
+                        {
+                            "name": "value",
+                            "fieldName": "value"
+                        },
+                        {
+                            "name": "scale",
+                            "fieldName": "scale"
+                        },
+                        {
+                            "name": "min",
+                            "fieldName": "min"
+                        },
+                        {
+                            "name": "max",
+                            "fieldName": "max"
+                        }
+                    ],
+                    "tagName": "node-projects-input-knob",
+                    "customElement": true
+                }
+            ],
+            "exports": [
+                {
+                    "kind": "custom-element-definition",
+                    "name": "node-projects-input-knob",
+                    "declaration": {
+                        "name": "InputKnob",
+                        "module": "dist/index.js"
+                    }
+                }
+            ]
+        }
+    ]
+}

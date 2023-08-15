@@ -1,6 +1,6 @@
 {
-  "name": "input-knob",
-  "version": "0.0.11",
+  "name": "@node-projects/input-knob",
+  "version": "0.1.0",
   "description": "A rotating, touch-sensitive knob web component that acts like an <input type=\"range\">.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -8,15 +8,27 @@
     "type": "git",
     "url": "git+https://github.com/GoogleChromeLabs/input-knob.git"
   },
+  "customElements": "custom-elements.json",
   "keywords": [
     "webcomponent",
     "knob",
     "control"
   ],
+  "scripts": {
+    "tsc": "tsc",
+    "start": "web-dev-server --node-resolve --open sample/index.html",
+    "build": "tsc",
+    "release": "release-it"
+  },
   "author": "Rowan Merewood <rowan@merewood.org>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/GoogleChromeLabs/input-knob/issues"
   },
-  "homepage": "https://github.com/GoogleChromeLabs/input-knob#readme"
+  "homepage": "https://github.com/GoogleChromeLabs/input-knob#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6",
+    "@web/dev-server": "^0.3.0",
+    "release-it": "^16.1.5"
+  }
 }

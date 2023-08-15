@@ -1,42 +1,70 @@
+const cssStyleSheet = new CSSStyleSheet();
+cssStyleSheet.replaceSync(`
+:host {
+  display: inline-block;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+}
+#rotator {
+  display: block;
+  --angle: 0rad;
+  transform: rotate(var(--angle));
+  will-change: transform;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background: #cadbbc;
+  border: 1rem double #356211;
+  border-bottom: 1rem solid #356211;
+  border-radius: 100%;
+}
+#markFallback {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  font: bold 200% monospace;
+  color: #356211;
+}`);
+
 const template = document.createElement('template');
 template.innerHTML = `
-  <style>
-    :host {
-      display: inline-block;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      touch-action: none;
-      user-select: none;
-      cursor: pointer;
-    }
-    #rotator {
-      display: block;
-      --angle: 0rad;
-      transform: rotate(var(--angle));
-      will-change: transform;
-      height: 100%;
-      width: 100%;
-    }
-  </style>
-  <div id="rotator" part="rotator"><slot></slot></div>`;
-
-window.ShadyCSS && ShadyCSS.prepareTemplate(template, 'input-knob');
+<div id="rotator" part="rotator">
+  <slot id="slot"></slot>
+  <div id="markFallback" style="display:none">▲</div>
+</div>`;
 
 const TWO_PI = 2 * Math.PI;
 
 export default class InputKnob extends HTMLElement {
+
+  private _rotator: HTMLDivElement;
+  private _markFallback: HTMLDivElement;
+  private _angle: number;
+  private _centerX: number;
+  private _centerY: number;
+  private _initialAngle: number;
+  private _attemptedAngle: number;
+  private _attemptedRotations: number;
+  private _initialTouchAngle: number;
+  private _touchY: number;
+  private _touchX: number;
+  private _rotations: number;
+  private _previousAttemptedAngle: number;
+  private _attemptedValue: number;
+  private _slot: HTMLSlotElement;
+
   constructor() {
     super();
 
-    window.ShadyCSS && ShadyCSS.styleElement(this);
     this.attachShadow({ mode: 'open' });
+    this.shadowRoot.adoptedStyleSheets = [cssStyleSheet];
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this._rotator = this.shadowRoot.getElementById('rotator');
-    this._fallback = null;
+    this._rotator = <HTMLDivElement>this.shadowRoot.getElementById('rotator');
+    this._markFallback = <HTMLDivElement>this.shadowRoot.getElementById('markFallback');
+    this._slot = <HTMLSlotElement>this.shadowRoot.getElementById('slot');
 
     this._drawState = this._drawState.bind(this);
     this._onMousedown = this._onMousedown.bind(this);
@@ -57,54 +85,39 @@ export default class InputKnob extends HTMLElement {
     return ['value', 'scale', 'min', 'max'];
   }
 
-  get value() {
-    return this.hasAttribute('value') ? this.getAttribute('value') : 0;
+  get value(): number {
+    return this.hasAttribute('value') ? parseFloat(this.getAttribute('value')) : 0;
   }
 
   set value(value) {
-    this.setAttribute('value', parseFloat(value));
+    this.setAttribute('value', <any>parseFloat(<any>value));
   }
 
-  get scale() {
-    return this.hasAttribute('scale') ? this.getAttribute('scale') : 1;
+  get scale(): number {
+    return this.hasAttribute('scale') ? parseFloat(this.getAttribute('scale')) : 1;
   }
 
   set scale(scale) {
-    this.setAttribute('scale', parseFloat(scale));
+    this.setAttribute('scale', <any>parseFloat(<any>scale));
   }
 
-  get min() {
-    return this.hasAttribute('min') ? this.getAttribute('min') : null;
+  get min(): number {
+    return this.hasAttribute('min') ? parseFloat(this.getAttribute('min')) : null;
   }
 
   set min(min) {
-    this.setAttribute('min', parseFloat(min));
+    this.setAttribute('min', <any>parseFloat(<any>min));
   }
 
-  get max() {
-    return this.hasAttribute('max') ? this.getAttribute('max') : null;
+  get max(): number {
+    return this.hasAttribute('max') ? parseFloat(this.getAttribute('max')) : null;
   }
 
   set max(max) {
-    this.setAttribute('max', parseFloat(max));
+    this.setAttribute('max', <any>parseFloat(<any>max));
   }
 
   connectedCallback() {
-    if (!this._rotator.part) {
-      this._fallback = document.createElement('span');
-      this._fallback.style.setProperty('--angle', `${this._angle}rad`);
-      this._fallback.style.setProperty('transform', `rotate(var(--angle))`);
-      this._fallback.style.setProperty('-webkit-tap-highlight-color', 'transparent');
-
-      while (this.childNodes.length > 0) {
-        this._fallback.appendChild(this.childNodes[0]);
-      }
-
-      this._fallback.classList.add('fallback');
-      this.classList.add('fallback');
-      this.append(this._fallback);
-    }
-
     this._drawState();
 
     if ('PointerEvent' in window) {
@@ -131,10 +144,12 @@ export default class InputKnob extends HTMLElement {
   }
 
   _drawState() {
-    let target = this._rotator;
+    let target: HTMLElement = this._rotator;
 
-    if (this._fallback !== null) {
-        target = this._fallback;
+    if (!this._slot.assignedElements().length) {
+      this._markFallback.style.display = 'block';
+    } else {
+      this._markFallback.style.display = 'none';
     }
 
     target.style.setProperty('--angle', `${this._angle}rad`);

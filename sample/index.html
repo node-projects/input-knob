@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <script type="module" src="../dist/index.js"></script>
+
+        <style>
+            node-projects-input-knob.simpleknob {
+              width: 150px;
+              padding: 10px;
+              border: 2px dashed green;
+              background: lightgreen;
+            }
+          
+            node-projects-input-knob.simpleknob::part(rotator) {
+              box-sizing: border-box;
+              background: lightblue;
+              border: 2px dashed blue;
+              border-radius: 100%;
+              width: 150px;
+              height: 150px;
+            }
+          
+            .mark {
+              display: inline-block;
+              width: 100%;
+              text-align: center;
+              font: bold 200% monospace;
+              color: blue;
+            }
+          </style>
+          <style>
+            node-projects-input-knob.niceknob {
+                width: 10rem;
+                height: 10rem;
+                margin: auto;
+                display: block;
+                border-radius: 100%;
+                box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.5);
+                background: #cadbbc;
+            }
+            
+            node-projects-input-knob.niceknob::part(rotator) {
+                box-sizing: border-box;
+                width: 10rem;
+                height: 10rem;
+                background: #cadbbc;
+                border: 1rem double #356211;
+                border-bottom: 1rem solid #356211;
+                border-radius: 100%;
+            }
+
+            .niceknob.mark {
+                display: inline-block;
+                width: 100%;
+                text-align: center;
+                font: bold 200% monospace;
+                color: #356211;
+            }
+          </style>
+    </head>
+    <body>
+        <div style="display: flex; flex-direction: column; flex-wrap: wrap; gap: 30px;">
+            Simple Style:
+            <node-projects-input-knob class="simpleknob" value="50" scale="10" min="0" max="100">
+                <div class="mark">▲</div>
+            </node-projects-input-knob>
+            Nice Style
+            <node-projects-input-knob class="niceknob" value="50" scale="10" min="0" max="100">
+                <div class="niceknob mark">▲</div>
+            </node-projects-input-knob>
+            Default Style
+            <node-projects-input-knob style="width: 100px; height: 100px;" value="50" scale="10" min="0" max="100">
+            </node-projects-input-knob>
+        </div>
+    </body>
+</html>
